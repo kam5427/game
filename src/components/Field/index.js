@@ -2,13 +2,10 @@ import { useEffect, useState } from "react";
 import "./styles.css";
 
 const initialField = Array(9).fill(null);
-let finished = false
-
+let finished = false;
 function Field() {
     const [field, setField] = useState(initialField);
-
     const [xIsNext, setXIsNext] = useState(true);
-
 
     useEffect(() => {
         if (field.filter((cell) => cell === null).length <= 4) {
@@ -28,10 +25,10 @@ function Field() {
                     field[winVariants[i][0]] != null &&  ( field[winVariants[i][0]] === field[winVariants[i][1]] &&
                     field[winVariants[i][0]] === field[winVariants[i][2]] )
                 ) {
-                    finished = true
                     console.log(`Победили ${field[winVariants[i][0]]}`)
-                    console.log(finished)
-                } else {
+                    finished = true;
+                    debugger
+                } else if(!(field.includes(null))) {
                     console.log('Ничья')
                 }
             }
@@ -56,11 +53,11 @@ function Field() {
             <div className="field">
                 {field.map((cell, index) => (
                     <button
-                        disabled={finished }
                         onClick={() => {
                             handleCellClick(index);
                         }}
                         className="cell"
+                        disabled={finished}
                     >
                         {cell}
                     </button>
