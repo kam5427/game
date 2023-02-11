@@ -67,7 +67,7 @@ function Field() {
 
     return (
         <div className="container">
-            {/*Тут писать, кто победил */}
+            /* Тут писать, кто победил */
             <p className="who-plays">Ходит {xIsNext ? "X" : "O"}</p>
             <div className="field">
                 {field.map((cell, index) => (
