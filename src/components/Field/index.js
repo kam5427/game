@@ -6,7 +6,7 @@ const initialField = Array(9).fill(null);
 function Field() {
     const [field, setField] = useState(initialField);
     const [finished, setFinished] = useState(false);
-    const [xIsNext, setXIsNext] = useState(true);
+    const [winner, setWinner] = useState();
 
     useEffect(() => {
         if (field.filter((cell) => cell === null).length <= 4) {
@@ -28,6 +28,7 @@ function Field() {
                     field[winVariants[i][0]] === field[winVariants[i][2]]
                 ) {
                     console.log(`Победили ${field[winVariants[i][0]]}`);
+                    setWinner(field[winVariants[i][0]])
                     setFinished(true);
                     return;
                 }
@@ -39,37 +40,35 @@ function Field() {
                 return;
             }
         }
-
         // Тут ставить O с помощью бота
     }, [field]);
 
     const handleCellClick = (index) => {
-        if (field[index] === null) {
+       if (field[index] === null )  {
             const newField = [...field];
-            // newField[index] = xIsNext ? "X" : "O";
             newField[index] = "X";
-
             let botIndex = index;
             while (newField[botIndex] !== null) {
                 botIndex = Math.floor(Math.random() * 8);
             }
             newField[botIndex] = "O";
             setField(newField);
-            setXIsNext(!xIsNext);
         }
     };
 
     const restartClick = () => {
         setField(initialField);
-        setXIsNext(true);
+        setWinner();
         setFinished(false);
     };
 
     return (
         <div className="container">
-            /* Тут писать, кто победил */
-            <p className="who-plays">Ходит {xIsNext ? "X" : "O"}</p>
+            {/*<p className="who-plays">Ходит {xIsNext ? "X" : "O"}</p>*/}
+            <div className="game-section">
+
             <div className="field">
+
                 {field.map((cell, index) => (
                     <button
                         onClick={() => {
@@ -82,6 +81,8 @@ function Field() {
                     </button>
                 ))}
             </div>
+
+            </div>
             <div className="resetBlock">
                 <button
                     onClick={() => {
@@ -92,6 +93,11 @@ function Field() {
                     Restart
                 </button>
             </div>
+            <p className="who-wins"> {finished ? "Игра окончена, " : ""} {winner && (
+                <>
+                    победил {winner}
+                </>
+            )}</p>
         </div>
     );
 }
